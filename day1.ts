@@ -4,6 +4,11 @@ function isDigit(ch: string): boolean {
   return (ch >= '0' && ch <= '9');
 }
 
+/**
+ * calculates the calibration value of a string, based on the digits in the string
+ * @param str input string
+ * @returns number representing the calibration value
+ */
 function getCalibrationValue(str: string): number {
   const nums: number[] = [];
   for (const ch of str) {
@@ -14,6 +19,14 @@ function getCalibrationValue(str: string): number {
   return nums[0] * 10 + nums[nums.length-1];
 }
 
+/**
+ * transforms the worded digits (i.e. 'one') in the string into ones that contain the digit itself
+ * replaces instaces of 'one` with 'one1one'. instead of just replacing the word, we preserve the word
+ * on both ends due to cases of overlapping letters.
+ * e.g. 'oneight' becomes '1ight' if we don't preserve the word
+ * @param str input string
+ * @returns string that contains all digits needed for calibration value calculation
+ */
 function changeWordsToNumbers(str: string): string {
   let out = str;
   const wordToNum = [
