@@ -28,6 +28,14 @@ function isSymbol(ch: string): boolean {
   return !strRegex.test(ch);
 }
 
+/**
+ * checks if a @type SchematicNumber is surrounded by any "thing"
+ * @param schematic the schematic map
+ * @param schematicNumber represents a number on the schematic map
+ * @param isThingToFind function for identifying the "thing" to look for
+ * @returns hasThing: whether or not the thing was found
+ * @returns thingPositions: array of coordinates corresponding to found things
+ */
 function hasSurroundingThing(
     schematic: string[][],
     schematicNumber: SchematicNumber,
@@ -38,8 +46,9 @@ function hasSurroundingThing(
   } {
   let hasThing = false;
   let thingPositions = [];
-  for (let checkingRow = schematicNumber.start.row - 1; checkingRow < schematicNumber.start.row + 2; checkingRow++) {
-    for (let checkingCol = schematicNumber.start.col - 1; checkingCol < schematicNumber.start.col + schematicNumber.len + 1; checkingCol++) {
+  const [ row, col ] = [ schematicNumber.start.row, schematicNumber.start.col ];
+  for (let checkingRow = row - 1; checkingRow < row + 2; checkingRow++) {
+    for (let checkingCol = col - 1; checkingCol < col + schematicNumber.len + 1; checkingCol++) {
       // OOB check
       if (checkingRow < 0 || checkingCol < 0 || checkingRow > schematic.length - 1 || checkingCol > schematic[0].length - 1) {
         continue;
@@ -57,6 +66,13 @@ function hasSurroundingThing(
   };
 }
 
+/**
+ * sums up all the part numbers by passing in schematic numbers and a schematic map
+ * searches the surrounds of the schematic numbers in the map and adds to sum if surrounded by a symbol
+ * @param schematic 
+ * @param schematicNumbers 
+ * @returns 
+ */
 function getSumOfPartNumbers(schematic: string[][], schematicNumbers: SchematicNumber[]): number {
   let res = 0;
   for (const schematicNumber of schematicNumbers) {
@@ -67,6 +83,11 @@ function getSumOfPartNumbers(schematic: string[][], schematicNumbers: SchematicN
   return res;
 }
 
+/**
+ * finds and parses all the numbers in a schematic
+ * @param schematic 
+ * @returns SchematicNumber: a type containing info about the number such as its value, its starting coordinates and its length
+ */
 function findNumbers(schematic: string[][]): SchematicNumber[] {
   let res: SchematicNumber[] = [];
   for (let rowIndex = 0; rowIndex < schematic.length; rowIndex++) {
@@ -103,7 +124,7 @@ function findNumbers(schematic: string[][]): SchematicNumber[] {
         }
       }
     }
-    // if buffer is not empty, then we still have an unprocessed number
+    // if buffer is not empty after the loop ends, then we still have an unprocessed number
     if (numberBuffer != '') {
       res.push({
         num: parseInt(numberBuffer),
@@ -118,6 +139,11 @@ function findNumbers(schematic: string[][]): SchematicNumber[] {
   return res;
 }
 
+/**
+ * @param a list of coordinates
+ * @param b list of coordinates to compare to
+ * @returns boolean representing if common coordinates were found
+ */
 function hasCommonCoord(a: Coord[], b: Coord[]) {
   for (const i of a) {
     for (const j of b) {
@@ -129,11 +155,20 @@ function hasCommonCoord(a: Coord[], b: Coord[]) {
   return false;
 }
 
+/**
+ * calculates the gear ratio of a schematic map, given a list of schematic numbers
+ * iterates through schematic numbers in the list and finds gears (*) associated with the number
+ * iterates through all number-gear pairs and adds the product of them to the total gear ratio
+ * if there are exactly two numbers associated with one gear
+ * @param schematic schematic map to search for gears
+ * @param schematicNumbers schematic numbers to iterate through and find associated gears
+ * @returns the "gear ratio" of the map
+ */
 function getGearRatio(schematic: string[][], schematicNumbers: SchematicNumber[]): number {
   let ratio = 0;
   const numsAndGears: NumsAndGears[] = [];
   for (const schematicNumber of schematicNumbers) {
-    const gearRes = hasSurroundingThing(schematic, schematicNumber, (ch: string) => { return (ch == '*')});
+    const gearRes = hasSurroundingThing(schematic, schematicNumber, (ch: string) => (ch == '*')); // inline gear finder function
 
     if (gearRes.hasThing) {
       numsAndGears.push({num: schematicNumber.num, gears: gearRes.thingPositions})
@@ -156,10 +191,6 @@ function getGearRatio(schematic: string[][], schematicNumbers: SchematicNumber[]
   return ratio;
 }
 
-
-
-
-
 // tests
 const testFile = fs.readFileSync('./day3.test.txt', 'utf-8');
 const testLines = testFile.split('\r\n');
@@ -174,8 +205,8 @@ for (const line of testLines) {
 }
 
 const testSchematicNumbers = findNumbers(testSchematic);
-console.log(getSumOfPartNumbers(testSchematic, testSchematicNumbers));
-console.log(getGearRatio(testSchematic, testSchematicNumbers));
+console.log(`TEST: part 1: ${getSumOfPartNumbers(testSchematic, testSchematicNumbers)}`);
+console.log(`TEST: part 2: ${getGearRatio(testSchematic, testSchematicNumbers)}`);
 
 // main
 const file = fs.readFileSync('./day3.txt', 'utf-8');
@@ -191,5 +222,5 @@ for (const line of lines) {
 }
 
 const schematicNumbers = findNumbers(schematic);
-console.log(getSumOfPartNumbers(schematic, schematicNumbers));
-console.log(getGearRatio(schematic, schematicNumbers));
+console.log(`Part 1 solution: ${getSumOfPartNumbers(schematic, schematicNumbers)}`);
+console.log(`Part 2 solution: ${getGearRatio(schematic, schematicNumbers)}`);
