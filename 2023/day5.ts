@@ -14,7 +14,7 @@ function parseInput(input: string): {
   return {
     seeds,
     maps
-  }
+  };
 }
 
 // traverse a "seed" through a map of transformations and return the final transformed vaLue
@@ -40,7 +40,7 @@ function getLowestLocation(seeds: number[], maps: number[][][], seedRanges?: num
   let lowestLocation = Number.MAX_SAFE_INTEGER;
   let s = 0;
   for (const seed of seeds) {
-    let range = seedRanges ? seedRanges[s] : 1;
+    const range = seedRanges ? seedRanges[s] : 1;
     for (let i = 0; i < range; i++) {
       const location = getLocation(seed + i, maps);
       if (location < lowestLocation) lowestLocation = location;
@@ -75,7 +75,7 @@ function findOriginalSeed(seeds: number[], backwardsMap: number[][][], seedRange
     let s = 0;
     for (const seed of seeds) {
       if (orignalSeed >= seed && orignalSeed <= seed + seedRanges[s]) return i;
-      s++
+      s++;
     }
   }
   return -1;

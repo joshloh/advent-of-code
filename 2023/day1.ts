@@ -39,7 +39,7 @@ function changeWordsToNumbers(str: string): string {
     ['seven', '7'],
     ['eight', '8'],
     ['nine', '9']
-  ]
+  ];
   for (const transformation of wordToNum) {
     out = out.replaceAll(transformation[0], transformation[0] + transformation[1] + transformation[0]);
   }
@@ -52,15 +52,15 @@ const getCalibrationValueTestCases = [
   { in: 'pqr3stu8vwx', out: 38},
   { in: 'a1b2c3d4e5f', out: 15},
   { in: 'treb7uchet', out: 77}
-]
+];
 
-console.log(`getCalibrationValueTestCases`);
+console.log('getCalibrationValueTestCases');
 for (const test of getCalibrationValueTestCases) {
   const res = getCalibrationValue(test.in);
   if (res != test.out) {
     console.log(`FAIL: expected ${test.out} but got ${res}`);
   } else {
-    console.log(`PASS`);
+    console.log('PASS');
   }
 }
 
@@ -75,16 +75,16 @@ const part2TestCases = [
   { in: 'threeight', out: 38 },
   { in: 'nine6lqhnvbpxoneseveneightsxjfkz4vr', out: 94},
   { in: '41fournineeightvxxjdthreeeight', out: 48},
-]
+];
 
-console.log(`part2TestCases`);
+console.log('part2TestCases');
 for (const test of part2TestCases) {
-  const nums = changeWordsToNumbers(test.in)
+  const nums = changeWordsToNumbers(test.in);
   const res = getCalibrationValue(nums);
   if (res != test.out) {
     console.log(`FAIL: expected ${test.out} but got ${res} (nums: ${nums})`);
   } else {
-    console.log(`PASS`);
+    console.log('PASS');
   }
 }
 

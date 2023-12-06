@@ -9,7 +9,7 @@ function calculateWinnings(n: number): number {
 function calculateMatches(str: string): number {
   let matches = 0;
   const winningNumbers = str.split(': ')[1].split('| ')[0].split(' ').filter((e) => e != '');
-  const numbersYouHave = str.split(': ')[1].split('| ')[1].split(' ').filter((e) => e != '');;
+  const numbersYouHave = str.split(': ')[1].split('| ')[1].split(' ').filter((e) => e != '');
   for (const winningNumber of winningNumbers) {
     for (const numberYouHave of numbersYouHave) {
       if (winningNumber == numberYouHave) matches++;
@@ -20,7 +20,7 @@ function calculateMatches(str: string): number {
 
 function countCards(lines: string[]): number {
   let total = 0;
-  let cardCopies = new Array(lines.length).fill(1);
+  const cardCopies = new Array(lines.length).fill(1);
   let currentCard = 0;
   for (const line of lines) {
     const win = calculateMatches(line);
@@ -40,7 +40,7 @@ function countCards(lines: string[]): number {
 const tfile = fs.readFileSync('./day4.test.txt', 'utf-8');
 const tlines = tfile.split('\r\n');
 
-let tsum = 0
+let tsum = 0;
 for (const line of tlines) {
   tsum += calculateWinnings(calculateMatches(line));
 }
@@ -52,7 +52,7 @@ console.log(`TEST: part 2: ${countCards(tlines)}`);
 const file = fs.readFileSync('./day4.txt', 'utf-8');
 const lines = file.split('\r\n');
 
-let sum = 0
+let sum = 0;
 for (const line of lines) {
   sum += calculateWinnings(calculateMatches(line));
 }

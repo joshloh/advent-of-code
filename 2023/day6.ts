@@ -38,4 +38,3 @@ console.log(`Test 2 solution: ${solve2(tfile)}`);
 const file = fs.readFileSync('./day6.txt', 'utf-8');
 console.log(`Part 1 solution: ${solve1(file)}`);
 console.log(`Part 2 solution : ${solve2(file)}`);
-

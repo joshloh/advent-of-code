@@ -23,7 +23,7 @@ function isDigit(ch: string): boolean {
 }
 
 function isSymbol(ch: string): boolean {
-  let strRegex = new RegExp(/^[a-z0-9]+$/i);
+  const strRegex = new RegExp(/^[a-z0-9]+$/i);
   if (ch == '.') return false;
   return !strRegex.test(ch);
 }
@@ -37,15 +37,15 @@ function isSymbol(ch: string): boolean {
  * @returns thingPositions: array of coordinates corresponding to found things
  */
 function hasSurroundingThing(
-    schematic: string[][],
-    schematicNumber: SchematicNumber,
-    isThingToFind: (ch: string) => boolean, 
-  ): {
+  schematic: string[][],
+  schematicNumber: SchematicNumber,
+  isThingToFind: (ch: string) => boolean, 
+): {
     hasThing: boolean,
     thingPositions: Coord[]
   } {
   let hasThing = false;
-  let thingPositions = [];
+  const thingPositions = [];
   const [ row, col ] = [ schematicNumber.start.row, schematicNumber.start.col ];
   for (let checkingRow = row - 1; checkingRow < row + 2; checkingRow++) {
     for (let checkingCol = col - 1; checkingCol < col + schematicNumber.len + 1; checkingCol++) {
@@ -56,7 +56,7 @@ function hasSurroundingThing(
       const ch = schematic[checkingRow][checkingCol];
       if (isThingToFind(ch)) {
         hasThing = true;
-        thingPositions.push({row: checkingRow, col: checkingCol})
+        thingPositions.push({row: checkingRow, col: checkingCol});
       }
     }
   }
@@ -89,7 +89,7 @@ function getSumOfPartNumbers(schematic: string[][], schematicNumbers: SchematicN
  * @returns SchematicNumber: a type containing info about the number such as its value, its starting coordinates and its length
  */
 function findNumbers(schematic: string[][]): SchematicNumber[] {
-  let res: SchematicNumber[] = [];
+  const res: SchematicNumber[] = [];
   for (let rowIndex = 0; rowIndex < schematic.length; rowIndex++) {
     // state management
     let processingNumber = false;
@@ -171,13 +171,13 @@ function getGearRatio(schematic: string[][], schematicNumbers: SchematicNumber[]
     const gearRes = hasSurroundingThing(schematic, schematicNumber, (ch: string) => (ch == '*')); // inline gear finder function
 
     if (gearRes.hasThing) {
-      numsAndGears.push({num: schematicNumber.num, gears: gearRes.thingPositions})
+      numsAndGears.push({num: schematicNumber.num, gears: gearRes.thingPositions});
     }
   }
   // iterate through all the numbers that have gears and see if there are any that have the same gear
   for (let i = 0; i < numsAndGears.length - 1; i++) {
     const numAndGear = numsAndGears[i];
-    let common = [];
+    const common = [];
     for (let j = i + 1; j < numsAndGears.length; j++) {
       const compareTo = numsAndGears[j];
       if (hasCommonCoord(numAndGear.gears, compareTo.gears)) {

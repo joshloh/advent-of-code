@@ -7,14 +7,14 @@ type Day2Solution = {
 
 function processLine(str: string): Day2Solution {
   // initialise output
-  let output: Day2Solution = {
+  const output: Day2Solution = {
     isPossible: true,
     cubePower:0
-  }
+  };
   // maximum block values for part 1
-  let maxR = 12;
-  let maxG = 13;
-  let maxB = 14;
+  const maxR = 12;
+  const maxG = 13;
+  const maxB = 14;
 
   // minimum required block values for part 2
   let minR = 0;
@@ -66,7 +66,7 @@ const testCases: TestCase[] = [
   { in: 'Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red', out: { isPossible: false, cubePower: 1560 }},
   { in: 'Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red', out: { isPossible: false, cubePower: 630 }},
   { in: 'Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green', out: { isPossible: true, cubePower: 36 }},
-]
+];
 
 function isEqual(a: Day2Solution, b: Day2Solution) {
   return (a.isPossible == b.isPossible && a.cubePower == b.cubePower);
@@ -84,7 +84,7 @@ for (const test of testCases) {
     console.log('PASS');
   }
   if (res.isPossible) testSum1 += testIndex;
-  testSum2 += res.cubePower
+  testSum2 += res.cubePower;
 }
 console.log(testSum1);
 console.log(testSum2);
@@ -97,7 +97,7 @@ let sum = 0;
 let sum2 = 0;
 let index = 0;
 for (const input of inputs) {
-  const res: Day2Solution = processLine(input)
+  const res: Day2Solution = processLine(input);
   index++;
   if (res.isPossible) {
     sum += index;
